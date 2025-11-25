@@ -1,0 +1,23 @@
+const mineflayer = require('mineflayer');
+
+// Configure ton bot ici
+const bot = mineflayer.createBot({
+  host: 'serveur.mcpvp.com', // remplace par le serveur
+  port: 25565,                // port du serveur
+  username: 'TonPseudoMinecraft' // ton pseudo ou email Microsoft
+});
+
+bot.on('login', () => {
+  console.log('Bot connecté ! AFK activé.');
+});
+
+// Garde le bot vivant
+bot.on('end', () => {
+  console.log('Bot déconnecté, reconnexion...');
+  setTimeout(() => {
+    bot.connect();
+  }, 5000);
+});
+
+// Optionnel : log messages serveur
+bot.on('message', (msg) => console.log(msg.toAnsi()));
