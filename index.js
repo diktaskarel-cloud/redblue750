@@ -3,20 +3,20 @@ const mineflayer = require('mineflayer');
 const { MicrosoftAuthenticator } = require('mineflayer-microsoft');
 
 const auth = new MicrosoftAuthenticator({
-  email: diktas.karel@gmail.com,
-  password: RedBlue005
+  email: process.env.MINECRAFT_EMAIL,
+  password: process.env.MINECRAFT_PASSWORD
 });
 
 auth.getToken().then(token => {
   const bot = mineflayer.createBot({
-    host: donutsmp.net,
-    port: 25565,
+    host: process.env.MINECRAFT_SERVER,
+    port: parseInt(process.env.MINECRAFT_PORT),
     username: token.username,
     auth: 'microsoft',
     accessToken: token.accessToken
   });
 
-  bot.on('login', () => console.log('Bot connecté avec Microsoft ! AFK activé.'));
+  bot.on('login', () => console.log('Bot connecté via Microsoft !'));
 
   bot.on('end', () => {
     console.log('Bot déconnecté, reconnexion...');
@@ -24,4 +24,4 @@ auth.getToken().then(token => {
   });
 
   bot.on('message', msg => console.log(msg.toAnsi()));
-}).catch(err => console.error('Erreur authentification Microsoft :', err));
+}).catch(err => console.error('Erreur Microsoft Auth :', err));
